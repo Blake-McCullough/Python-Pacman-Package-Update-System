@@ -1,0 +1,2 @@
+# Python-Pacman-Package-Update-System
+Was created while doing my internship with HyprFire, This software will retrieve the latest version (specified in the latestversion.txt file on the server) And will proceed to update the pacman mirror list if the latest version is different to the same, but will skip if the mirror list is set to the latest version on the system. The versions are sorted into folders on the server, e.g. 'v1'.  For when using a custom Pacman package server. Includes logging of event with date-time stamped.
