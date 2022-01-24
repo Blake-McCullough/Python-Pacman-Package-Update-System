@@ -65,6 +65,6 @@ def UpdatePackages(serveraddress):
 
 if __name__ == "__main__":
     #Set this to whatever the server address is (for the updating of packages)
-    UpdatePackages('http://10.1.1.200:8000/')
+    UpdatePackages('<DOMAIN-WITH-PORT>')
 
        
