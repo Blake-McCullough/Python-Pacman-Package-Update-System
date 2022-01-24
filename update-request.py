@@ -9,44 +9,50 @@ from ensurepip import version #Decoding import
 import urllib.request # the lib that handles the url stuff
 
 def UpdatePackages(serveraddress):
+    print("Update Package System Made By Blake McCullough")
+
     #Makes the address and path for the latest version file to be opened
     url = serveraddress +'/latestversion.txt'
-    data = urllib.request.urlopen("") # it's a file like object and works just like a file
+    data = urllib.request.urlopen(url) # it's a file like object and works just like a file
     
 
     for line in data:
         version = line
-    data.close()
+
     #decodes the line from binary so it can be read correctly
     latestversion = version.decode()
     #opens the current version (aka what the current mirror is) in read so that it can just view the file, but not edit
     current_version = open("/etc/pacman.d/mirrorlist", "r") #To test if it works properly
+
     #Reads the current version from the file
     for line in current_version:
+
         currentversion = line
     current_version.close() 
     #If the current mirror server is the same as in the latestversion.txt
     if currentversion != latestversion:
+        print("Updated to latest, See logs for more details")
         #opens the current version (aka what the current mirror is) so it can edit the file
         current_version = open("/etc/pacman.d/mirrorlist", "w")
         current_version.write(latestversion)
         current_version.close()
-        updatelog = open("updatelog.txt", "a")
+        updatelog = open("packageupdatelog.txt", "a")
         #Gets current time
         now = datetime.now() 
         timenow = now.strftime("%d/%m/%Y %H:%M:%S")
         #Adds to a log with the time for admins to view what happens, in case of an error
-        log =timenow+"-  updated to the latest version for the packages:"+latestversion+"\n"
+        log =timenow+"-  updated to the latest version for the packages:"+latestversion+ "from the package "+currentversion+"\n"
         updatelog.write(log)
         updatelog.close()
 
     else:
+        print("Kept the same, See logs for more details")
         updatelog = open("packageupdatelog.txt", "a")
         #Gets current time
         now = datetime.now()
         timenow = now.strftime("%d/%m/%Y %H:%M:%S")
         #Adds to a log with the time for admins to view what happens, in case of an error
-        log =timenow+"-  No Update was necessary for the packages\n"
+        log =timenow+"-  No Update was necessary for the packages" + latestversion + "\n"
         updatelog.write(log)
         updatelog.close()
 
@@ -59,6 +65,6 @@ def UpdatePackages(serveraddress):
 
 if __name__ == "__main__":
     #Set this to whatever the server address is (for the updating of packages)
-    UpdatePackages('DOMAIN/IPADDRESS')
+    UpdatePackages('http://10.1.1.200:8000/')
 
        
